@@ -1,0 +1,11 @@
+!! use xev to find keycodes and names
+!!
+!! Caps Lock -> Control
+clear lock
+clear control
+keycode 66 = Control_L
+add control = Control_L Control_R
+!! Right Control -> Compose
+keycode 105 = Multi_key
+!! End -> Super_L
+keycode 115 = Super_L

@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Exec=nu --config ~/.config/nushell/config.nu -c wiki
+Name=Wiki

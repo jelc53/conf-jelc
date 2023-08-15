@@ -1,0 +1,6 @@
+/* Allow any user to call clightd without authentication */
+polkit.addRule(function(action, subject) {
+    if (action.id.indexOf("org.clightd.clightd.") == 0) {
+        return polkit.Result.YES;
+    }
+});

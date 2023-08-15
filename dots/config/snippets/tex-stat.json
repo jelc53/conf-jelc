@@ -1,0 +1,194 @@
+{
+  "theta": {
+    "prefix": "theta",
+    "body": "\\theta$0"
+  },
+  "omega": {
+    "prefix": "omega",
+    "body": "\\Omega$0"
+  },
+  "probability": {
+    "prefix": "pr",
+    "body": "\\Pr($1)$0"
+  },
+  "posterior": {
+    "prefix": "posterior",
+    "body": "p(${1:\\theta}\\mid ${2:y})$0"
+  },
+  "probability likelihood": {
+    "prefix": ["plikelihood", "pyt"],
+    "body": "p(${1:y}\\mid ${2:\\theta})$0"
+  },
+  "probability theta given y": {
+    "prefix": ["pty"],
+    "body": "p(${1:\\theta}\\mid ${2:y})$0"
+  },
+  "likelihood": {
+    "prefix": ["Likelihood", "likelihood"],
+    "body": "\\mathcal{L}(\\theta; ${2:x})$0"
+  },
+  "log-likelihood": {
+    "prefix": ["llikelihood", "log-likelihood"],
+    "body": "\\ell(\\theta; ${2:x})$0"
+  },
+  "expectation": {
+    "prefix": "E",
+    "body": "\\mathbb{E}\\left[$1\\right]$0"
+  },
+  "expectation relative to": {
+    "prefix": "Er",
+    "body": "\\mathbb{E}_{$1}\\left[$2\\right]$0"
+  },
+  "variance": {
+    "prefix": "variance",
+    "body": "\\operatorname{var}\\left[$1\\right]$0"
+  },
+  "covariance": {
+    "prefix": "covariance",
+    "body": "\\operatorname{cov}\\left[$1\\right]$0"
+  },
+  "correlation": {
+    "prefix": "correlation",
+    "body": "\\operatorname{Corr}\\left[$1\\right]$0"
+  },
+  "independent": {
+    "prefix": "indep",
+    "body": "\\perp"
+  },
+  "event space": {
+    "prefix": "event",
+    "body": "\\Omega"
+  },
+  "null set": {
+    "prefix": ["null", "ns"],
+    "body": "\\varnothing"
+  },
+  "Bernoulli distribution": {
+    "prefix": "Bernoulli",
+    "body": "\\operatorname{Bernoulli}\\left(${1:\\theta}\\right)$0"
+  },
+  "Binomial distribution": {
+    "prefix": "Binomial",
+    "body": "\\operatorname{Binomial}\\left(${1:n},${2:p}\\right)$0"
+  },
+  "Binomial density": {
+    "prefix": "fBinomial",
+    "body": "\\theta^s(1-\\theta)^{n-s}$0"
+  },
+  "Negative Binomial distribution": {
+    "prefix": "Negative Binomial",
+    "body": "\\operatorname{Negative-binomial}\\left(${1:r},${2:p}\\right)$0"
+  },
+  "Binomial density": {
+    "prefix": "fNegative Binomial",
+    "body": "\\binom{k+r-1}{r-1}(1-p)^kp^r$0"
+  },
+  "Beta distribution": {
+    "prefix": "Beta",
+    "body": "\\operatorname{Beta}\\left(${1:\\alpha},${2:\\beta}\\right)$0"
+  },
+  "Beta density": {
+    "prefix": "fBeta",
+    "body": "\\frac{x^{\\alpha-1}(1-x)^{\\beta-1}}{\\operatorname{B}(\\alpha,\\beta)}"
+  },
+  "Multinomial distribution": {
+    "prefix": "Multinomial",
+    "body": "\\operatorname{Multinomial}\\left(n,\\vec{p}\\right)$0"
+  },
+  "Multinomial density": {
+    "prefix": "fMultinomial",
+    "body": "\\frac{n!}{x_1!\\cdots x_k!}p_1^{x_1}\\cdots p_k^{x_k}$0"
+  },
+  "Gamma distribution": {
+    "prefix": "Gamma",
+    "body": "\\operatorname{Gamma}\\left(${1:\\alpha},${2:\\beta}\\right)$0"
+  },
+  "Gamma density": {
+    "prefix": "fGamma",
+    "body": "\\frac{\\beta^\\alpha}{\\Gamma(\\alpha)}x^{\\alpha-1}\\exp\\left(-\\beta x\\right)$0"
+  },
+  "Dirichlet distribution": {
+    "prefix": "Dirichlet",
+    "body": "\\operatorname{Dirichlet}\\left(${1:\\vec{\\alpha}}\\right)$0"
+  },
+  "Dirichlet density": {
+    "prefix": "fDirichlet",
+    "body": "\\frac{1}{\\operatorname{B}(\\vec{\\alpha})}\\prod_{i=1}^n x_i^{\\alpha_i-1}$0"
+  },
+  "Normal distribution": {
+    "prefix": "Normal",
+    "body": "\\operatorname{Normal}\\left(${1:\\mu},${2:\\sigma^2}\\right)$0"
+  },
+  "Normal density": {
+    "prefix": "fNormal",
+    "body": "\\frac{1}{\\sigma\\sqrt{2\\pi}}\\exp\\left(-\\frac{1}{2\\sigma^2}(y-\\mu)^2\\right)$0"
+  },
+  "Uniform distribution": {
+    "prefix": "Uniform",
+    "body": "\\operatorname{Uniform}\\left(${1:0},${2:1}\\right)$0"
+  },
+  "Exponential distribution": {
+    "prefix": "Exponential",
+    "body": "\\operatorname{Exponential}\\left(${1:\\lambda}\\right)$0"
+  },
+  "Exponential density": {
+    "prefix": "fExponential",
+    "body": "\\lambda\\exp\\left(-\\lambda x\\right)$0"
+  },
+  "Poisson distribution": {
+    "prefix": "Poisson",
+    "body": "\\operatorname{Poisson}\\left(${1:\\lambda}\\right)$0"
+  },
+  "Poisson density": {
+    "prefix": "fPoisson",
+    "body": "\\lambda^k\\frac{\\exp\\left(-\\lambda\\right)}{k!}"
+  },
+  "Chi-squared distribution": {
+    "prefix": "Chi-squared",
+    "body": "\\chi^2(${1:\\nu})$0"
+  },
+  "Chi-squared density": {
+    "prefix": "fChi-squared",
+    "body": "\\frac{1}{2^{k/2}\\Gamma(k/2)}x^{k/2}e^{-x/2}"
+  },
+  "Inverse-chi-squared distribution": {
+    "prefix": "Inv-chi-squared",
+    "body": "\\operatorname{inv-}\\chi^2\\left(${1:\\nu}\\right)$0"
+  },
+  "Inverse-chi-squared density": {
+    "prefix": "fInv-chi-squared",
+    "body": "\\frac{2^{-\\nu/2}}{\\Gamma(\\nu/2)}x^{-\\nu/2-1}e^{-1/(2x)}$0"
+  },
+  "Scaled-inverse-chi-squared distribution": {
+    "prefix": "Scaled-inv-chi-squared",
+    "body": "\\operatorname{scaled-inv-}\\chi^2\\left(${1:\\nu},${2:\\tau^2}\\right)$0"
+  },
+  "Scaled-inverse-chi-squared density": {
+    "prefix": "fScaled-inv-chi-squared",
+    "body": "\\frac{(\\tau^2\\nu/2)^{\\nu/2}}{\\Gamma(\\nu/2)}\\cdot\\frac{\\exp\\left(\\frac{-\\nu\\tau^2}{2x}\\right)}{x^{1+\\nu/2}}$0"
+  },
+  "Inverse-gamma distribution": {
+    "prefix": "Inverse-gamma distribution",
+    "body": "\\operatorname{inv-gamma}\\left(${1:\\alpha},${2:\\beta}\\right)$0"
+  },
+  "Inverse-gamma density": {
+    "prefix": "fInverse-gamma",
+    "body": "\\frac{\\beta^\\alpha}{\\Gamma(\\alpha)}x^{-\\alpha-1}\\exp\\left(-\\frac{\\beta}{\\alpha}\\right)$0"
+  },
+  "t-distribution": {
+    "prefix": "T-distribution",
+    "body": "t_{${1:n}}$0"
+  },
+  "t-distribution density": {
+    "prefix": "fT-distribution",
+    "body": "\\frac{\\Gamma\\left(\\frac{\\nu+1}{2}\\right)}{\\Gamma\\left(\\frac{\\nu}{2}\\right)\\sqrt{\\nu\\pi}}\\left(1+\\frac{t^2}{2}\\right)^{-(\\nu+1)/2}"
+  },
+  "independent": {
+    "prefix": ["in", "ind"],
+    "body": "\\perp\\!\\!\\!\\perp"
+  },
+  "not independent": {
+    "prefix": ["not", "notin"],
+    "body": "\\not\\perp\\!\\!\\!\\perp"
+  }
+}

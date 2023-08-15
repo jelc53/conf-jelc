@@ -1,0 +1,2 @@
+#!/bin/sh
+nu --config ~/.config/eww/eww.nu -c "$@"

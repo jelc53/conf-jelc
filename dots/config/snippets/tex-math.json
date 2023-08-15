@@ -1,0 +1,172 @@
+{
+  "aligned": {
+    "prefix": ["al", "aligned"],
+    "body": [
+      "\\[",
+      "\\begin{aligned}",
+      "\t${1} &= ${2}",
+      "\\end{aligned}",
+      "\\]$0"
+    ]
+  },
+  "cases": {
+    "prefix": "cases",
+    "body": ["\\begin{cases}", "\t${1} & ${2}", "\\end{cases}$0"]
+  },
+  "falign": {
+    "prefix": "falign",
+    "body": ["\\begin{falign*}", "\t${1}", "\\end{falign*}$0"]
+  },
+  "Action space": {
+    "prefix": "A",
+    "body": "\\mathbb{A}"
+  },
+  "State space": {
+    "prefix": "S",
+    "body": "\\mathcal{S}"
+  },
+  "Parameter space": {
+    "prefix": "O",
+    "body": "\\mathcal{O}"
+  },
+  "mathcal": {
+    "prefix": "mc",
+    "body": "\\mathcal{$1}$0"
+  },
+  "boldsymbol": {
+    "prefix": "bs",
+    "body": "\\boldsymbol\\"
+  },
+  "R space": {
+    "prefix": "R",
+    "body": "\\mathbb{R}"
+  },
+  "set of natural numbers": {
+    "prefix": "N",
+    "body": "\\mathbb{N}"
+  },
+  "set of positive natural numbers": {
+    "prefix": "Zp",
+    "body": "\\mathbb{Z}^+"
+  },
+  "set of negative natural numbers": {
+    "prefix": "Zn",
+    "body": "\\mathbb{Z}^-"
+  },
+  "transpose": {
+    "prefix": "T",
+    "body": "\\intercal"
+  },
+  "Indicator function": {
+    "prefix": "I",
+    "body": "\\mathbb{1}\\left[$1\\right]$0"
+  },
+  "boldface text": {
+    "prefix": "tbf",
+    "body": "\\textbf{$1}$0"
+  },
+  "math boldface": {
+    "prefix": "mbf",
+    "body": "\\mathbf{$1}$0"
+  },
+  "math blackboard bold": {
+    "prefix": "mbb",
+    "body": "\\mathbb{$1}$0"
+  },
+  "italic text": {
+    "prefix": "it",
+    "body": "\\textit{$1}$0"
+  },
+  "theorem": {
+    "prefix": "thm",
+    "body": "\\begin{theorem}$1\\end{theorem}$0"
+  },
+  "corollary": {
+    "prefix": "cor",
+    "body": "\\begin{corollary}$1\\end{corollary}$0"
+  },
+  "example": {
+    "prefix": "ex",
+    "body": "\\begin{example}$1\\end{example}$0"
+  },
+  "item": {
+    "prefix": "p",
+    "body": "\\item $0"
+  },
+  "quotation": {
+    "prefix": "quo",
+    "body": "\\begin{quotation}$1\\end{quotation}$0"
+  },
+  "parentheses": {
+    "prefix": ["par", "parentheses"],
+    "body": "\\left($1\\right)$0"
+  },
+  "brackets": {
+    "prefix": ["br", "brackets"],
+    "body": "\\left[$1\\right]$0"
+  },
+  "parentheses matrix": {
+    "prefix": "pmtx",
+    "body": "\\begin{pmatrix}$1\\end{pmatrix}$0"
+  },
+  "bracket matrix": {
+    "prefix": "bmtx",
+    "body": "\\begin{bmatrix}$1\\end{bmatrix}$0"
+  },
+  "bracket array matrix": {
+    "prefix": "bamtx",
+    "body": "\\left[\\begin{array}$1\\end{array}\\right]$0"
+  },
+  "set": {
+    "prefix": "set",
+    "body": "\\{$1\\}$0"
+  },
+  "angle brackets": {
+    "prefix": "ab",
+    "body": "\\langle$1\\rangle$0"
+  },
+  "array": {
+    "prefix": "arr",
+    "body": "\\[\\begin{array}$1\\end{array}\\]$0"
+  },
+  "application": {
+    "prefix": "app",
+    "body": "\\begin{application}$1\\end{application}$0"
+  },
+  "color box": {
+    "prefix": "box",
+    "body": "\\begin{tcolorbox}$1\\end{tcolorbox}$0"
+  },
+  "code": {
+    "prefix": "code",
+    "body": "\\begin{tcolorbox}\n\\inputminted{${1:language}}{${2:path}}\n\\end{tcolorbox}$0"
+  },
+  "frac": {
+    "prefix": ["fr", "frac"],
+    "body": "\\frac{$1}{$2}$0"
+  },
+  "p frac": {
+    "prefix": "pfrac",
+    "body": "\\left(\\frac{$1}{$2}\\right)$0"
+  },
+  "exp": {
+    "prefix": "exp",
+    "body": "\\exp\\left($1\\right)$0"
+  },
+  "log": {
+    "prefix": "log",
+    "body": "\\log\\left($1\\right)$0"
+  },
+  "nedge": {
+    "prefix": "nedge",
+    "body": "$\\xrightarrow[\\text{$1}]{}$0$"
+  },
+  "sumn": {
+    "prefix": "sumn",
+    "body": "\\sum_{i=1}^n$0"
+  },
+  "prodn": {
+    "prefix": "prodn",
+    "body": "\\prod_{i=1}^n$0"
+  }
+}

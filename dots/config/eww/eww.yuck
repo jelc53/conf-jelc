@@ -1,0 +1,597 @@
+(defwidget hover-open-close [name ?update]
+  (eventbox 
+    :onhover "./neww 'eww-update \"${update}\" ${name}'"
+    :onhoverlost "./neww 'eww-close all'"
+    (children)))
+
+(defwidget hover-open [name ?update]
+  (eventbox 
+    :onhover "./neww 'eww-update \"${update}\" ${name}'"
+    (children)))
+
+(defwidget hover-close []
+  (eventbox 
+    :onhover "./neww 'eww-close all'"
+    (children)))
+
+(defwidget hoverlost-close []
+  (eventbox 
+    :onhoverlost "./neww 'eww-close all'"
+    (children)))
+
+(defwindow bar
+  :monitor 0
+  :reserve
+  (struts
+    :distance "58px" 
+    :side "right")
+  :geometry
+  (geometry
+    :x "-5px" 
+    :y "0" 
+    :height "98%" 
+    :width "50px"
+    :anchor "right center")
+  (bar))
+
+(defwidget bar []
+  (box
+    :class "bar main" 
+    :orientation "vertical" 
+    :space-evenly false
+    (bar-top)
+    (apps)
+    (bar-bottom)))
+
+(defwidget bar-top []
+  (box
+    :orientation "vertical" 
+    :class "bar section"
+    :space-evenly false
+    :vexpand true
+    (app :name "launcher" :icon "󰀻")
+    (workspaces)
+    ))
+
+(deflisten workspaces-listen "./workspaces")
+(defwidget workspaces []
+  (literal :content workspaces-listen))
+
+(defwidget apps []
+  (box
+    :class "bar section"
+    :orientation "vertical" 
+    :valign "center"
+    :vexpand true
+    (eventbox
+      :onrightclick "./neww 'launch terminal floating'"
+      (app :name "terminal" :icon ""))
+    (app :name "files" :icon "")
+    (hover-open-close
+      :name 'todos-display'
+      (eventbox
+        :onrightclick "./neww 'launch todos secondary'"
+        (app :name "todos" :icon "󰈙")))
+    (app :name "firefox" :icon "")
+    (app :name "spotify" :icon "")))
+
+(defwidget app [name icon]
+  (box
+    :class "app ${name}"
+    :orientation "vertical"
+    :tooltip name
+    (button
+      :onclick "./neww 'launch ${name}'"
+      :class "app icon ${name}" icon)))
+
+(defwidget output [value]
+  (box
+    :class "output box"
+    :orientation "vertical"
+    (label
+      :class "output label"
+      :text value)))
+
+; hack: https://github.com/elkowar/eww/issues/546
+(deflisten todos "./todos")
+(defwindow todos-display
+  :monitor 0
+  :geometry (geometry
+    :x "-70px"
+    :y "0" 
+    :anchor "center right")
+  (output :value {replace(todos, " ", "
+")}))
+
+(defwidget bar-bottom []
+  (box
+    :class "bar section"
+    :orientation "vertical" 
+    :space-evenly false
+    :valign "end" 
+    :vexpand true
+    (controls)
+    (clock)
+    (power)))
+
+(defwidget controls []
+  (box
+    :orientation "vertical" 
+    :class "bar group controls"
+    (battery)
+    (audio)
+    ; (brightness)
+    (network)
+    (metrics)))
+
+(defpoll battery-icon :interval "1m" "./neww 'battery icon'")
+(defwidget battery []
+  (box
+    :visible {has-battery =~ "true" ? true : false}
+    (hover-open-close
+      :name "battery-display"
+      :update "battery-percent,battery-watts,battery-charge-value,battery-charge-units"
+      (eventbox
+        :onclick "./neww 'eww-toggle battery-display'"
+        (label
+          :class "battery icon"
+          :halign "end"    
+          :text battery-icon)))))
+
+(defwindow battery-display
+  :monitor 0
+  :geometry (geometry
+    :x "-70px"
+    :y "-250px" 
+    :width 300
+    :anchor "bottom right")
+  (battery-display))
+
+(defvar has-battery false)
+(defvar battery-percent 50)
+(defvar battery-watts 10)
+(defvar battery-charge-value 1)
+(defvar battery-charge-units "Hours")
+(defwidget battery-display []
+  (row-display
+    :spacing 15
+    (pie-stat
+      :class "battery percent"
+      :value {battery-percent}
+      :text "")
+    (stat
+      :class "battery charge"
+      :value battery-charge-value
+      :text battery-charge-units)
+    (stat
+      :class "battery watts"
+      :value battery-watts
+      :text "Watts")
+    ))
+
+(defwidget row-display [spacing] 
+  (box
+    :class "row display vertical-box"
+    :orientation "vertical"
+    (box
+      :class "row display horizontal-box"
+      :orientation "horizontal"     
+      :spacing spacing
+      (children))))
+
+(defwidget col-display [spacing] 
+  (box
+    :class "col display vertical-box"
+    :orientation "horizontal"
+    (box
+      :class "col display horizontal-box"
+      :orientation "vertical"     
+      :spacing spacing
+      (children))))
+
+(defwidget pie-stat [class value text]
+  (box
+    :class "stat pie box ${class}"
+    (circular-progress
+      :class "stat pie ring"
+      :thickness 10
+      :start-at 75
+      :clockwise false
+      :value value
+      (label
+        :class "stat pie ring text ${class}"    
+        :text text))))
+
+(defwidget stat [class value text]
+  (box
+    :orientation "vertical"
+    :space-evenly false
+    :valign "center"
+    :vexpand true
+    :class "stat ${class}"
+    (box
+      :class "stat value ${class}"
+      (label :text value))
+    (box
+      :class "stat text ${class}"
+      (label :text text))))
+
+(defvar current-volume 50)
+(defvar audio-icon "󰕾")
+(defvar bluetooth-headphones-icon "󰋋")
+(defvar bluetooth-speaker-icon "󰓃")
+(defwidget audio []
+  (hover-open
+    :name 'audio-display'
+    :update 'current-volume=volume,audio-icon,bluetooth-headphones-icon,bluetooth-speaker-icon'
+    (button
+      :onclick "./neww 'audio toggle'"
+      :onrightclick "./neww 'configure audio'"
+      :class "audio icon" audio-icon)))
+
+(defwindow audio-display
+  :monitor 0
+  :geometry (geometry
+      :x "-70px"
+      :y "-185px" 
+      :height "150" 
+      :width "100"
+      :anchor "bottom right")
+  (audio-display))
+
+(defwidget audio-display []
+  (hoverlost-close
+    (box
+      :class "audio display"
+      :orientation "horizontal"
+      :halign "center"
+      :space-evenly false
+      :spacing 0
+      (col-display
+        :spacing 10
+        (box
+          :class "audio box"
+          :width 60
+          (button
+            :class "audio button headphones"
+            :tooltip "Beats Headphones"
+            :onclick "./neww 'bluetooth toggle beats'"
+            (label
+              :class "audio headphones icon"
+              :text bluetooth-headphones-icon)))
+        (box
+          :class "audio box"
+          (button
+            :class "audio button speaker"
+            :tooltip "Echo Dot"
+            :onclick "./neww 'bluetooth toggle Echo'"
+            (label
+              :class "audio speaker icon"
+              :text bluetooth-speaker-icon))))
+      (box
+        :class "volume slider box"
+        (scale
+          :class "volume slider scale"     
+          :value current-volume 
+          :orientation "vertical"      
+          :vexpand true
+          :flipped true 
+          :min 0 
+          :max 100
+          :onchange "./neww 'set volume {}'")))))
+
+(defwidget brightness []
+  (box
+    :visible {has-battery =~ "true" ? true : false}
+    (hover-open
+    :name "brightness-display"
+    :update 'current-brightness=brightness'
+    (button
+      :onclick "./neww 'eww-toggle brightness-display'"
+      :class "brightness icon" "󰖨"))))
+
+(defwindow brightness-display
+  :monitor 0
+  :geometry
+  (geometry
+    :x "-70px"
+    :y "-140px" 
+    :height "200" 
+    :width "20"
+    :anchor "bottom right")
+  (brightness-display))
+
+(defvar current-brightness 25)
+(defwidget brightness-display []
+  (hoverlost-close
+    (scale
+      :class "brightness display slider"     
+      :value current-brightness
+      :orientation "vertical"      
+      :flipped true 
+      :min 0 
+      :max 100
+      :onchange "./neww 'set brightness {}'")))
+
+(defpoll network-icon :interval "15s" "./neww 'network icon'")
+(defwidget network []
+  (hover-open-close
+    :name "network-display"
+    :update "network-name"
+    (eventbox
+      :onclick "./neww 'eww-toggle network-display'"
+      :onrightclick "./neww 'configure network'" 
+      (label
+        :class "network icon"
+        :text network-icon))))
+
+(defvar network-name "No Network")
+(defwindow network-display
+  :monitor 0
+  :geometry
+  (geometry
+    :x "-70px"
+    :y "-140px" 
+    :width 275
+    :anchor "bottom right")
+  (network-display))
+
+(defvar network-interface "")
+(defwidget network-display []
+  (box
+    :class "network display container"
+    :orientation "vertical"
+    :space-evenly false
+    :spacing 5
+    (box
+      :class "network name"
+      (label
+        :class "network name text"
+        :text network-name))
+    (row-display
+      :spacing 15
+      (stat
+        :class "network download"
+        :text {
+          EWW_NET[network-interface].NET_DOWN * 0.008 > 1000
+          ? " Mbps"
+          : " Kbps"}
+        :value { round(
+          EWW_NET[network-interface].NET_DOWN * 0.008 > 1000
+            ? EWW_NET[network-interface].NET_DOWN * 0.000008
+            : EWW_NET[network-interface].NET_DOWN * 0.008,
+          1)
+        })
+      (stat
+        :class "network upload"
+        :text {
+          EWW_NET[network-interface].NET_UP * 0.008 > 1000
+          ? " Mbps"
+          : " Kbps"}
+        :value { round(
+          EWW_NET[network-interface].NET_UP * 0.008 > 1000
+            ? EWW_NET[network-interface].NET_UP * 0.000008
+            : EWW_NET[network-interface].NET_UP * 0.008,
+          1)
+        }))))
+
+(defwidget metrics []
+  (hover-open-close
+    :name "metrics-display"
+    :update "gpu-cpu,gpu-mem"
+    (eventbox
+      :onclick "./neww 'eww-toggle metrics-display'"
+      (label
+        :class "metrics icon"
+        :text ''))))
+
+(defvar gpu-cpu 0)
+(defvar gpu-mem 0)
+(defwindow metrics-display
+  :monitor 0
+  :geometry
+  (geometry
+    :x "-70px"
+    :y "-140px" 
+    :width 400
+    :anchor "bottom right")
+  (metrics-display))
+
+(defwidget metrics-display []
+    (col-display
+      :spacing 0
+      (row-display
+        :spacing 15
+        (box
+          :class "CPU header"
+          (label
+            :class "metrics header label"
+            :text "CPU"))
+        (pie-stat
+          :class "metrics cpu percent"
+          :value {EWW_CPU.avg}
+          :text "󰍛")
+        (pie-stat
+          :class "metrics memory percent"
+          :value {EWW_RAM.used_mem_perc}
+          :text "󰆼"))
+      (row-display
+        :spacing 15
+        (box
+          :class "GPU header"
+          (label
+            :class "metrics header label"
+            :text "GPU"))
+        (pie-stat
+          :class "metrics gpu percent"
+          :value {gpu-cpu}
+          :text "󰍛")
+        (pie-stat
+          :class "metrics gpu memory percent"
+          :value {round(gpu-mem, 0)}
+          :text "󰆼"))
+        (row-display
+          :spacing 15
+          (stat
+            :class "disk usage root"
+            :value "${round(EWW_DISK["/"].used_perc, 0)}%"
+            :text "/root")
+          (stat
+            :class "disk usage home"
+            :value "${round(EWW_DISK["/home"].used_perc, 0)}%"
+            :text "/home")
+          (stat
+            :class "disk usage data"
+            :value "${round(EWW_DISK["/data"].used_perc, 0)}%"
+            :text "/data"))))
+
+(defpoll clock-hour  :interval "1s"  "./neww 'clock hour'")
+(defpoll clock-minute  :interval "1s"  "./neww 'clock minute'")
+(defpoll clock-weekday  :interval "1m"  "./neww 'clock weekday'")
+(defvar clock-day 1)
+(defvar clock-month 1)
+(defvar clock-year 2022)
+(defvar clock-full "Sunday, 1 January")
+(defwidget clock []
+  (hover-open
+    :name "clock-display"
+    :update "clock-day,clock-month,clock-year,clock-full"
+    (eventbox
+      :onclick "./neww 'eww-toggle clock-display'"
+      :onrightclick "./neww 'launch calendar'"
+      (box
+        :orientation "vertical" 
+        :class "bar group clock" 
+        (label
+          :class "clock day"
+          :text clock-weekday)
+        (label
+          :class "clock hour"
+          :text clock-hour)
+        (label
+          :class "clock minute"
+          :text clock-minute)))))
+
+(defwindow clock-display
+  :geometry
+  (geometry
+    :x "-70px"
+    :y "-50px"
+    :anchor "right bottom")
+  (clock-display))
+
+(defwidget clock-display []
+  (hoverlost-close
+    (box
+      :class "clock-display"
+      :orientation "vertical"
+      :space-evenly false
+      (time)
+      (cal))))
+
+(defwidget time []
+  (box
+    :class "clock-display time"
+    :orientation "vertical"
+    :space-evenly false
+    (box
+      :class "clock-container"
+      :orientation "horizontal"
+      :space-evenly false
+      :halign "center"
+      :valign "center"
+      (label
+        :text clock-hour
+        :class "content")
+      (divider)
+      (label
+        :text clock-minute
+        :class "text clock-minute"))
+    (box
+      :class "clock-display full-date"
+      :orientation "horizontal"
+      :space-evenly true
+      :halign "center"
+      (label
+        :text clock-full))))
+
+(defwidget divider []
+  (box
+    :class "divider"
+    :orientation "vertical"
+    :space-evenly true))
+
+(defwidget cal []
+  (box
+    :class "calendar-display cal"
+    :orientation "vertical"
+    :space-evenly false
+    :width 400
+    (calendar
+      :day clock-day
+      :month {clock-month}
+      :year clock-year)))
+
+(defwidget power []
+  (hover-open
+    :name "powermenu-display"
+    (button
+      :onclick "./neww 'eww-toggle powermenu-display'"
+      :class "power icon" "")))
+
+(defwindow powermenu-display
+  :monitor 0
+  :geometry
+  (geometry
+    :x "-70px"
+    :y "-12px" 
+    :height 100 
+    :width 375
+    :anchor "bottom right")
+  (powermenu-display))
+
+(defwidget powermenu-display []
+  (hoverlost-close
+    (row-display
+      :spacing 30
+      (twoline-button
+        :class "powermenu bspwm"        
+        :line1 ""
+        :line2 "bspwm" 
+        :onclick "./neww 'powermenu bspwm'")
+      (twoline-button
+        :class "powermenu logout"        
+        :line1 ""
+        :line2 "logout"      
+        :onclick "./neww 'powermenu logout'")
+      (twoline-button
+        :class "powermenu reboot"        
+        :line1 ""
+        :line2 "reboot"     
+        :onclick "./neww 'powermenu reboot'")
+      (twoline-button
+        :class "powermenu lock"        
+        :line1 ""
+        :line2 "lock"   
+        :onclick "./neww 'powermenu lock'")
+      (twoline-button
+        :class "powermenu shutdown"        
+        :line1 ""
+        :line2 "power"     
+        :onclick "./neww 'powermenu shutdown'")
+    )))
+
+(defwidget twoline-button [line1 line2 onclick ?class]
+  (eventbox
+    :onclick onclick
+    (box
+      :orientation "vertical"
+      :space-evenly false
+      :valign "center"
+      :class "button twoline ${class}"
+      (box
+        :class "button twoline line1 ${class}"
+        (label :text line1))
+      (box
+        :class "button twoline line2 ${class}"
+        (label :text line2)))))

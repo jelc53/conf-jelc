@@ -1,0 +1,239 @@
+[colors]
+background = ${xrdb:color0:#222}
+background-alt = ${xrdb:color1:#222}
+foreground = ${xrdb:color6:#222}
+foreground-alt = ${xrdb:color2:#222}
+primary = ${xrdb:color1:#222}
+secondary = ${xrdb:color2:#222}
+alert = ${xrdb:color8:#222}
+
+[bar/top]
+override-redirect = true
+wm-restack = bspwm
+width = 100%:-24
+offset-x = 12
+height = 34
+offset-y = 6
+radius = 0.0
+fixed-center = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 0
+border-size = 2
+border-color = ${colors.foreground}
+padding-left = 0
+padding-right = 2
+module-margin = 1
+
+font-0 = "FiraCode Nerd Font:pixelsize=16;3"
+font-1 = "Noto Sans CJK JP:pixelsize=16;3"
+font-2 = unifont:size=8:antialias=false;0
+font-3 = siji:pixelsize=10;1
+
+modules-left = bspwm eth wifi_m2
+modules-center = date
+modules-right = root_fs home_fs data_fs audio backlight battery
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[bar/bottom]
+override-redirect = false
+bottom = true
+wm-restack = bspwm
+width = 100%:-24
+offset-x = 12
+height = 34
+offset-y = 6
+radius = 0.0
+fixed-center = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 0
+border-size = 2
+border-color = ${colors.foreground}
+padding-left = 0
+padding-right = 2
+module-margin = 1
+
+font-0 = "FiraCode Nerd Font:pixelsize=16;3"
+font-1 = "Noto Sans CJK JP:pixelsize=16;3"
+font-2 = unifont:size=8:antialias=false;0
+font-3 = siji:pixelsize=10;1
+
+modules-left = memory
+modules-center = root_fs home_fs data_fs
+modules-right = cpu
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[module/bspwm]
+type = internal/bspwm
+format = <label-state>
+
+ws-icon-0 = 1;一
+ws-icon-1 = 2;二
+ws-icon-2 = 3;三
+ws-icon-3 = 4;四
+ws-icon-4 = 5;五
+ws-icon-5 = 6;六
+ws-icon-6 = 7;七
+ws-icon-7 = 8;八
+ws-icon-8 = 9;九
+ws-icon-9 = 10;十
+
+label-monitor = %name%
+label-focused = %name% %icon%
+label-occupied = %name% %icon%
+label-urgent = %name% %icon%
+label-empty = 
+label-focused-background = ${colors.background-alt}
+label-focused-padding = 2
+label-occupied-padding = 2
+label-empty-padding = 2
+
+[module/root_fs]
+type = internal/fs
+mount-0 = /
+label-mounted = ﲂ %percentage_used%%
+label-unmounted = %mountpoint% not mounted
+label-unmounted-foreground = ${colors.foreground-alt}
+
+[module/home_fs]
+type = internal/fs
+mount-0 = /home
+label-mounted =  %percentage_used%%
+label-unmounted = %mountpoint% not mounted
+label-unmounted-foreground = ${colors.foreground-alt}
+
+[module/data_fs]
+type = internal/fs
+mount-0 = /data
+label-mounted =  %percentage_used%%
+label-unmounted = %mountpoint% not mounted
+label-unmounted-foreground = ${colors.foreground-alt}
+
+[module/backlight]
+type = internal/backlight
+card = intel_backlight
+format = <label>
+label = ﯦ %percentage%%
+
+[module/xbacklight]
+type = internal/xbacklight
+
+format = <label> <bar>
+label = BL
+
+bar-width = 10
+bar-indicator = |
+bar-indicator-foreground = #fff
+bar-indicator-font = 2
+bar-fill = ─
+bar-fill-font = 2
+bar-fill-foreground = #9f78e1
+bar-empty = ─
+bar-empty-font = 2
+
+[module/backlight-acpi]
+inherit = module/xbacklight
+type = internal/backlight
+card = intel_backlight
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = "CPU "
+label = %percentage:2%%
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = "MEM "
+label = %percentage_used%%
+
+[module/wifi_m2]
+type = internal/network
+interface = wlp82s0
+interval = 3.0
+format-connected = <label-connected>
+label-connected = %essid%
+label-disconnected = 
+
+[module/eth]
+type = internal/network
+interface = enp9s0u2u1u2
+interval = 3.0
+format-connected = <label-connected>
+label-connected = eth
+label-disconnected = 
+
+[module/date]
+type = internal/date
+interval = 5
+date = "%A %Y-%m-%d"
+time = "%H:%M"
+format-prefix-foreground = ${colors.foreground-alt}
+label = %time% %date%
+
+[module/audio]
+type = internal/pulseaudio
+
+format-volume = <label-volume>
+label-volume = 墳 %percentage%%
+label-volume-foreground = ${colors.foreground}
+label-muted = 婢
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 100
+time-format = %H:%M
+format-charging = <label-charging>
+format-discharging = <ramp-capacity> <label-discharging>
+label-charging =  %percentage_raw%%
+label-discharging = %percentage_raw%% %consumption%W %time%
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-5 = 
+ramp-capacity-6 = 
+ramp-capacity-7 = 
+ramp-capacity-8 = 
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 60
+format = TEMP <label>
+label = %temperature-c%
+
+[module/spotify]
+type = custom/script
+exec = ~/.config/polybar/spotify.sh 
+interval = 1
+
+[module/lofi]
+type = custom/text
+content =  
+click-left = nu -c lofi
+click-right = nu -c nofi
+
+[module/headphones]
+type = custom/menu
+label-open = 
+label-separator = |
+menu-0-0 = beats
+menu-0-0-exec = nu -c beats
+menu-0-1 = flip
+menu-0-1-exec = nu -c flip
+
+[settings]
+screenchange-reload = true

@@ -1,0 +1,5 @@
+#!/bin/sh
+./neww workspaces
+bspc subscribe desktop_focus desktop_activate | while read -r _ ; do
+  ./neww workspaces
+done

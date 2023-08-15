@@ -1,0 +1,17 @@
+black
+einops
+ipython
+isort
+matplotlib
+numpy
+pandas
+pgmpy
+plotly
+pygments
+pytorch-lightning
+pyright
+radian
+scipy
+scikit-learn
+torch
+wheel

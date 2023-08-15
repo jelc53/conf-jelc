@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# copy text from system clipboard
+tmux set-buffer "$(xclip -o -sel clipboard)"
+
+# select bottom pane
+tmux select-pane -t "{down-of}" 2> /dev/null
+
+# if no bottom pane, then start a REPL based on file type
+if [ $? -ne 0 ]; then
+  # TODO(danj): replace this with ft from helix
+  ft=$(ps -u | rg -m 1 -o '\.(py|jl|R)')
+  declare -A repl
+  repl['.py']='ipython'
+  repl['.jl']='julia'
+  repl['.R']='R'
+  if [ ${repl[$ft]+_} ]; then
+    tmux split-window -v -p 35 ${repl[$ft]} # automaticaly focuses new pane
+    sleep 1 # sleep so tmux list-panes updates with this new pane
+  fi
+fi
+
+# if there is a bottom pane, check that it is a valid REPL before pasting
+cmd=$(tmux list-panes -f '#{pane_at_bottom}' -F '#{pane_current_command}')
+if [[ $cmd =~ python|R|julia ]]; then
+  tmux paste-buffer -p
+  tmux send-keys C-m C-m
+  tmux select-pane -t "{up-of}"
+fi

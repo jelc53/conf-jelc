@@ -1,0 +1,11 @@
+export PATH=~/.local/bin:~/.cargo/bin:~/.pyenv/shims:~/.pyenv/bin:~/.poetry/bin/poetry:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/opt/puppetlabs/bin
+export CARGO_HOME=~/.cargo
+export JULIA_DEPOT_PATH=~/.julia
+export POETRY_HOME=~/.poetry
+export PYENV_ROOT=~/.pyenv
+export RUSTUP_HOME=~/.rustup
+export R_LIBS_USER=~/.R
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

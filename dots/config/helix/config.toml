@@ -1,0 +1,35 @@
+theme = "tokyonight"
+
+[editor]
+true-color = true # for servers
+bufferline = "multiple"
+
+
+[editor.soft-wrap]
+enable = true
+max-wrap = 25
+wrap-indicator = ""
+wrap-at-text-width = false
+
+[editor.lsp]
+display-inlay-hints = true
+
+[keys.insert]
+C-p = "normal_mode"
+
+[keys.normal]
+C-h = "jump_view_left"
+C-l = "jump_view_right"
+C-j = "jump_view_down"
+C-k = "jump_view_down"
+C-v = "vsplit"
+space = { q = ":bclose", space = ["yank_joined_to_clipboard", ":sh ~/.local/bin/tmux-clip-to-repl"], "m" = ":sh latexmk > /dev/null" }
+C-f = "file_picker"
+C-p = "file_picker_in_current_directory"
+C-n = "goto_next_buffer"
+tab = "goto_next_buffer"
+g = { a = "code_action" }
+G = ["goto_last_line"]
+"$" = ["goto_line_end"]
+"^" = ["goto_line_start"]
+"=" = [":format"]

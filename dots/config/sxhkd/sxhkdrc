@@ -1,0 +1,155 @@
+# baskerville/sxhkd/src/parse.c has key names
+# based on /usr/share/doc/bspwm/examples/sxhkdrc
+# commands are executed with $SHELL -c $COMMAND
+# use xprop and then click a window to get its WM_CLASS
+# commands currently assume shell is /bin/bash
+# for nushell, this is set in config.toml/[env]/SXHKD_SHELL
+
+# program launcher
+ctrl + Return
+  rofi -show combi -modi combi
+
+# file viewer
+super + F
+  Thunar
+
+# new terminal
+super + Return
+  alacritty
+  # __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia alacritty
+
+super + Return
+  bspc rule -a \* -o state=floating && alacritty
+
+super + n
+  bspc rule -a \* -o state=floating rectangle=1150x338+697+728 && alacritty
+
+# new floating terminal
+super + shift + Return
+  bspc rule -a \* -o state=floating && alacritty
+
+# new firefox
+super + space
+  firefox
+
+# focus terminal
+ctrl + apostrophe
+  xdo activate -N Alacritty || alacritty
+
+# focus browser
+ctrl + semicolon
+  xdo activate -N Firefox || firefox
+
+# screenshot
+ctrl + shift + s
+  flameshot gui
+
+# private browser
+ctrl + shift + p
+  firefox -private-window
+
+# search google
+ctrl + g
+  rofi -show google -modi "google:~/.config/rofi/search_google.sh"
+
+# take notes (same shortcut used to split cells in jupyter)
+# ctrl + shift + underscore
+#   ~/.config/rofi/todo.sh
+
+# lock screen
+ctrl + Escape
+  XSECURELOCK_BLANK_TIMEOUT=1 XSECURELOCK_BLANK_DPMS_STATE=off xsecurelock
+  # XSECURELOCK_SAVER=saver_xscreensaver xsecurelock
+  # XSECURELOCK_COMPOSITE_OBSCURER=0 XSECURELOCK_SAVER=saver_xscreensaver xsecurelock
+
+# shutdown
+ctrl + shift + Escape
+  sudo shutdown -h now
+
+# restart sxhkd
+super + r
+  pkill -USR1 -x sxhkd
+
+# restart bspwm
+super + shift + r
+  bspc wm -r
+
+# kill node
+ctrl + q
+  bspc node -c
+
+# toggle theme
+super + shift + t
+  nu --config ~/.config/nushell/config.nu -c "toggle theme"
+
+# toggle tile/floating
+super + t
+  bspc node -t ~floating
+
+# toggle fullscreen
+super + f
+  nu --config ~/.config/nushell/config.nu -c "toggle fullscreen"
+
+# send to desktop and keep focus
+ctrl + shift + {1-9,0}
+  bspc node -d {1-9,10} --follow
+
+# swap the node with one in the given direction
+ctrl + shift + {h,j,k,l}
+  bspc node --swap {west,south,north,east}
+
+# resize: expand a window by moving one of its side outward
+super + {h,j,k,l}
+  bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# resize: contract a window by moving one of its side inward
+super + shift + {h,j,k,l}
+  bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# rotate 90 degrees, i.e. vertical to horizontal
+super + z
+  bspc node @parent -R 90
+
+# move the node in the given direction
+ctrl + {Left,Down,Up,Right}
+  bspc node -m {west,south,north,east} --follow
+
+# focus prev/next
+ctrl + {comma,period}
+  bspc node -f {prev,next}.window.normal
+
+# focus desktop
+ctrl + {1-9,0}
+  bspc desktop -f {1-9,10}
+
+# play/pause music
+ctrl + space
+  playerctl -p spotify,spotifyd play-pause
+
+# volumne down
+ctrl + Page_Down
+  pamixer --decrease 1
+
+# volume up
+ctrl + Page_Up
+  pamixer --increase 1
+
+# function key: volume down
+XF86AudioLowerVolume
+  pamixer --decrease 1
+
+# function key: volume up
+XF86AudioRaiseVolume
+  pamixer --increase 1
+
+# function key: mute
+XF86AudioMute
+  pamixer --toggle-mute
+
+# function key: decrease brightness
+XF86MonBrightnessDown
+  nu --config ~/.config/nushell/config.nu -c "light dec"
+
+# function key: increase brightness
+XF86MonBrightnessUp
+  nu --config ~/.config/nushell/config.nu -c "light inc"

@@ -1,0 +1,30 @@
+font:
+  size: 16
+  normal:
+    family: FiraCode Nerd Font
+env:
+  # set locale
+  LC_ALL: "en_US.UTF-8"
+selection:
+  save_to_clipboard: true
+# run showkey -a <key> on linux to get binding
+key_bindings:
+  # MacOS
+  - { key: A, mods: Command, chars: "\x01" } # tmux
+  - { key: C, mods: Command, chars: "\x03" } # SIGINT
+  - { key: D, mods: Command, chars: "\x04" } # EOF
+  - { key: H, mods: Command, chars: "\x08" } # vim
+  - { key: F, mods: Command, chars: "\x06" } # fzf rg
+  - { key: L, mods: Command, chars: "\x0c" } # vim
+  - { key: O, mods: Command, chars: "\x0f" } # vim
+  - { key: P, mods: Command, chars: "\x10" } # fzf
+  - { key: R, mods: Command, chars: "\x12" } # reverse search
+  - { key: T, mods: Command, chars: "\x14" } # fzf
+  - { key: U, mods: Command, chars: "\x15" } # vim
+  - { key: V, mods: Command, chars: "\x16" } # vim
+  - { key: V, mods: Command|Shift, action: Paste } # cli
+  # Linux
+  # - { key: P, mods: Control, chars: "\x66\x0d" } # control+p => f+enter
+  # - { key: S, mods: Control, chars: "\x73\x0d" } # control+s => s+enter
+import:
+  - ~/.cache/wal/alacritty-colors.yml

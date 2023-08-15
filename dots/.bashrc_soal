@@ -1,0 +1,7 @@
+export PATH=/scratch/jelc/.local/bin:/scratch/jelc/.cargo/bin:/scratch/jelc/.pyenv/shims:/scratch/jelc/.pyenv/bin:/scratch/jelc/.poetry/bin/poetry:/usr/local/cuda-11.7/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/opt/gurobi/linux64/bin:/opt/puppetlabs/bin:/opt/gurobi/linux64/bin
+export CARGO_HOME=/scratch/jelc/.cargo
+export JULIA_DEPOT_PATH=/scratch/jelc/.julia
+export POETRY_HOME=/scratch/jelc/.poetry
+export PYENV_ROOT=/scratch/jelc/.pyenv
+export RUSTUP_HOME=/scratch/jelc/.rustup
+export R_LIBS_USER=/scratch/jelc/.R

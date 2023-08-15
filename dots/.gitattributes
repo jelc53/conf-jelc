@@ -1,0 +1,12 @@
+# remove git lfs rules, use google drive
+# *.csv filter=lfs diff=lfs merge=lfs -text
+# *.gif filter=lfs diff=lfs merge=lfs -text
+# *.jpg filter=lfs diff=lfs merge=lfs -text
+# *.json filter=lfs diff=lfs merge=lfs -text
+# *.mp4 filter=lfs diff=lfs merge=lfs -text
+# *.mpg filter=lfs diff=lfs merge=lfs -text
+# *.pdf filter=lfs diff=lfs merge=lfs -text
+# *.png filter=lfs diff=lfs merge=lfs -text
+# *.pptx filter=lfs diff=lfs merge=lfs -text
+# *.xls filter=lfs diff=lfs merge=lfs -text
+# *.xlsx filter=lfs diff=lfs merge=lfs -text

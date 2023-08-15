@@ -1,0 +1,35 @@
+# https://github.com/helix-editor/helix/wiki/How-to-install-the-default-language-servers
+
+# Python:
+# pip install pyright (broken as of 2023-03-18)
+# pip install "python-lsp-server[all]"
+
+# Latex:
+# cargo install texlab
+
+# you can add "auto-format = true" or use "=" to format (config.toml keybinding)
+
+[[language]]
+name = "rust"
+
+[[language]]
+name = "python"
+# auto-format = true
+# pyright doesn't work as well as pylsp (2023-03-23)
+roots = ["pyproject.toml", "setup.py", "Poetry.lock"]
+language-server = { command = "pyright-langserver", args = ["--stdio"] }
+formatter = { command = "sh" , args = ["-c", "black --quiet - | isort -"] }
+text-width = 79
+config = {}
+
+[[language]]
+name = "markdown"
+text-width = 100
+
+[[language]]
+name = "json"
+config = { "provideFormatter" = true }
+
+[[language]]
+name = "lean"
+config = { input.eagerReplacementEnabled = true }

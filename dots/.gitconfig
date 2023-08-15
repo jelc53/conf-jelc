@@ -1,0 +1,20 @@
+[user]
+	email = julian.e.cooper2@gmail.com
+	name = Julian Cooper
+[core]
+	excludesfile = ~/.gitignore_global
+	attributesfile = ~/.gitattributes
+	editor = nvim
+[push]
+	default = simple
+[credential]
+	helper = cache
+[commit]
+	template = ~/.gitmessage
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process

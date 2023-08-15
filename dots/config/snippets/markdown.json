@@ -1,0 +1,46 @@
+{
+  "latex": {
+    "prefix": "ltx",
+    "body": "[latex]$1[/latex]$0"
+  },
+  "edge": {
+    "prefix": "edge",
+    "body": "\\rightarrow"
+  },
+  "nedge": {
+    "prefix": "nedge",
+    "body": "$\\xrightarrow[\\text{$1}]{}$0$"
+  },
+  "markdown aligned": {
+    "prefix": ["mal", "maligned"],
+    "body": "\n\n$$\n\\begin{aligned}\n$1\n&=$2\n\\end{aligned}\n$$\n$0"
+  },
+  "markdown cases": {
+    "prefix": "mcases",
+    "body": "\n$$\n\\begin{cases}\n$1\n&=$2\n\\end{cases}\n$$\n$0"
+  },
+  "markdown set": {
+    "prefix": "mset",
+    "body": "\\left\\{$1\\right\\}$0"
+  },
+  "fullwidth figure": {
+    "prefix": ["fullwidth", "full"],
+    "body": "{% fullwidth 'path/to/img.png' 'caption' %}"
+  },
+  "main column figure": {
+    "prefix": ["maincolumn", "full"],
+    "body": "{% maincolumn 'path/to/img.png' 'caption' %}"
+  },
+  "margin figure": {
+    "prefix": ["margin figure", "mfig"],
+    "body": "{% marginfigure 'id' 'path/to/img.png' 'caption' %}"
+  },
+  "side note": {
+    "prefix": ["sidenote", "snote"],
+    "body": "{% sidenote 'id' 'content' %}"
+  },
+  "margin note": {
+    "prefix": ["marginnote", "mnote"],
+    "body": "{% marginnote 'id' 'content' %}"
+  }
+}

@@ -1,0 +1,9 @@
+<type>(scope): <description>
+
+# [optional body]
+
+# [optional footer(s)]
+
+# types: [fix, feat, build, shore, ci, docs, style, refactor, perf, test]
+# use ! after (scope) and/or BREAKING CHANGE: footer for breaking changes
+# source: https://www.conventionalcommits.org/en/v1.0.0/?utm_source=pocket_mylist

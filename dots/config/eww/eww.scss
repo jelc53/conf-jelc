@@ -1,0 +1,299 @@
+* {
+  all: unset;
+}
+
+// pywal generated {colors0-15,background,foreground}
+@import "colors.scss";
+
+$bg1: $background;
+$bg2: $color1;
+$fg1: $background;
+$fg2: $color6;
+$fg3: $color3;
+$lime: #00ff00;
+
+* {
+  font-family: "FiraCode Nerd Font";
+}
+
+.active {
+  color: $fg1;
+}
+
+.inactive {
+  color: $fg3;
+  background-color: transparent;
+
+  &.occupied {
+    color: $fg2;
+  }
+}
+
+.bar {
+  background-color: $bg1;
+  margin: 0.2rem;
+  padding: 0;
+
+  &.group {
+    background-color: $bg2;
+    font-weight: bold;
+    color: $fg1;
+    border-radius: 5px;
+
+    &.workspaces {
+      font-size: 25;
+      padding: 0.2rem 0.7rem 0.5rem 0.7rem;
+    }
+
+    &.apps {
+      background-color: $bg1;
+    }
+
+    &.controls {
+      font-weight: normal;
+    }
+
+    &.clock {
+      font-size: 1.5em;
+    }
+  }
+}
+
+.clock.day {
+  font-size: 0.9em;
+}
+
+.icon {
+  font-size: 2em;
+  color: $fg1;
+
+  &.app {
+    font-size: 2.5em;
+    color: $fg2;
+  }
+
+  &.launcher {
+    margin: 0.4rem 0 0.4rem 0;
+    padding-right: 0.1rem;
+  }
+
+  &.terminal {
+    padding-right: 0.7rem;
+  }
+
+  &.files {
+    font-size: 2em;
+    padding-right: 1rem;
+  }
+
+  &.todos {
+    padding-right: 0.3rem;
+  }
+
+  &.firefox {
+    font-size: 2em;
+    padding-right: 0.8rem;
+  }
+
+  &.spotify {
+    padding-right: 0.5rem;
+  }
+
+  &.battery {
+    padding-right: 1.1rem;
+  }
+
+  &.audio {
+    padding-right: 0.3rem;
+  }
+
+  &.brightness {
+    padding-right: 1.4rem;
+  }
+
+  &.network {
+    padding-right: 0.6rem;
+  }
+
+  &.metrics {
+    margin-right: 0.3rem;
+  }
+
+  &.power {
+    font-size: 2em;
+    color: $fg2;
+    padding-bottom: 0.7rem;
+    padding-top: 0.7rem;
+  }
+}
+
+.display {
+  border-radius: 5px;
+  background-color: $bg1;
+  padding: 7px;
+}
+
+.output {
+  font-size: 20;
+  color: $bg2;
+  background-color: $bg1;
+  padding: 5px;
+
+  &.label {
+    color: $fg2;
+  }
+}
+
+.slider {
+  border-radius: 5px;
+  color: $lime;
+}
+
+.stat {
+  color: $fg1;
+  font-weight: bold;
+  background-color: $bg2;
+  border-radius: 20px;
+  padding: 5px;
+
+  &.pie {
+    &.box {
+      padding: 10px;
+    }
+    &.ring {
+      background-color: $color2;
+      &.text {
+        background-color: $bg2;
+        padding-top: 0.4rem;
+      }
+    }
+  }
+
+  &.value {
+    padding-bottom: 0;
+    font-size: 35;
+  }
+
+  &.text {
+    padding-top: 0;
+    font-size: 20;
+
+    &.pie {
+      font-size: 35;
+    }
+  }
+}
+
+.audio {
+  &.headphones {
+    color: $bg2;
+    font-size: 45px;
+    padding-right: 0.5rem;
+  }
+  &.speaker {
+    color: $bg2;
+    font-size: 45px;
+    padding-right: 0.5rem;
+  }
+}
+
+.network {
+  &.name {
+    font-size: 20;
+    font-weight: bold;
+    color: $bg2;
+    padding-top: 0.5rem;
+  }
+}
+
+trough highlight {
+  background-color: $fg2;
+  border-radius: 5px;
+}
+
+scale trough {
+  all: unset;
+  background-color: $bg2;
+  border-radius: 5px;
+  min-width: 10px;
+  margin: 0.3rem 0 0.3rem 0;
+}
+
+.metrics {
+  &.label {
+    color: $bg2;
+    font-size: 35;
+  }
+  &.cpu,
+  &.gpu {
+    padding-right: 0.6rem;
+  }
+  &.memory {
+    padding-right: 0.6rem;
+  }
+}
+
+.clock-display {
+  font-size: 25;
+  color: $bg2;
+  background-color: $bg1;
+  padding: 15px;
+
+  &.time {
+    font-size: 50;
+    color: $color7;
+  }
+
+  &.full-date {
+    font-size: 30;
+  }
+}
+
+.divider {
+  margin: 8px;
+  padding: 0px 1px;
+  background: $bg2;
+}
+
+calendar.header {
+  color: $color6;
+}
+
+calendar.highlight {
+  color: $color4;
+  font-weight: bold;
+}
+
+calendar:selected {
+  color: $color7;
+}
+
+.powermenu {
+  font-size: 50;
+  background-color: $bg1;
+
+  &.line2 {
+    font-size: 20;
+    padding-top: 5;
+  }
+
+  &.bspwm {
+    color: $color3;
+  }
+
+  &.logout {
+    color: $color4;
+  }
+
+  &.logout {
+    color: $color5;
+  }
+
+  &.reboot {
+    color: $color6;
+  }
+
+  &.shutdown {
+    color: $color7;
+  }
+}
