@@ -4,11 +4,11 @@
 [core]
 	excludesfile = ~/.gitignore_global
 	attributesfile = ~/.gitattributes
-	editor = nvim
+	editor = vim
 [push]
 	default = simple
 [credential]
-	helper = cache
+	helper = store
 [commit]
 	template = ~/.gitmessage
 [init]

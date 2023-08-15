@@ -4,12 +4,14 @@ theme = "tokyonight"
 true-color = true # for servers
 bufferline = "multiple"
 
-
 [editor.soft-wrap]
 enable = true
 max-wrap = 25
 wrap-indicator = ""
 wrap-at-text-width = false
+
+[editor.cursor-shape]
+insert = "bar"
 
 [editor.lsp]
 display-inlay-hints = true
@@ -23,6 +25,7 @@ C-l = "jump_view_right"
 C-j = "jump_view_down"
 C-k = "jump_view_down"
 C-v = "vsplit"
+esc = ["collapse_selection", "keep_primary_selection"]
 space = { q = ":bclose", space = ["yank_joined_to_clipboard", ":sh ~/.local/bin/tmux-clip-to-repl"], "m" = ":sh latexmk > /dev/null" }
 C-f = "file_picker"
 C-p = "file_picker_in_current_directory"
