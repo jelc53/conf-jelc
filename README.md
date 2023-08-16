@@ -1,299 +1,104 @@
-# TODO:
+**Preparation**: remove dual-boot, download theme images and conf repo to USB
 
-- clight
-  - webcams: https://github.com/FedeDP/Clight/issues/241
-  - ddcutil: https://github.com/rockowitz/ddcutil/issues/244
-- xsecurelock on lid close
+- Removing dual-boot: removing Windows from my lenovo dual-boot machine from both disk and grub menu https://forums.linuxmint.com/viewtopic.php?t=386957. To do this, install gparted (`sudo apt install gparted`) and unmount, delete and resize partitions from OS partition you want to hold onto (e.g. Ubuntu)
+- In the early stages of installation, access to github is limited and so best to store `conf` and any theme images on a USB you can mount and access from root terminal straight away
 
-# Installation
+**Installation**: boot from live iso image of void (flash USB) and run `void-installer` wizard
 
-- [Download Live Version](https://repo-us.voidlinux.org/live/current/)
-- flash onto USB drive
-- reboot, F12, boot from USB, select RAM option, then set following:
-  - if it fails to boot, try editing the GRUB command, adding `nomodeset rd.driver.blacklist=nouveau`
-  - root password
-  - user
-  - bootloader -> select harddrive
-  - partitions (if you need to)
-  - filesystems
-    - 1: vfat: /boot/efi (~512M) !!must be VFAT and first partition!!
-    - 2: ext4: / (~100G)
-    - 3: swap (~RAM)
-    - 4: ext4: /home (~200G)
-    - 5: xfs: /data !!DON'T CREATE A NEW FILESYSTEM!!
-- if not connected to a hard line:
-  - `./wifi.sh '<SSID>' '<PW>'`
-- `sudo xbps-install -Sy python3 git`
-- `cd /data && git clone https://github.com/danjenson/conf.git`
-  - might have to copy over from a USB; github disabled password authentication
-  - if you copy it, link it to your home directory `ln -s /data/conf/ ~/`
-- `./setup.py <base,ghost,m2> --username <username> --hostname <hostname>`
-  - press Enter or enter a password periodically
-- `set theme [light|dark] --img <path/to/image>`
-  - NOTE: things might look weird and tiny until you set the theme
-- sign in to:
-  - rclone/gdrive
-    - `rclone config`
-  - messenger
-  - whatsapp
-  - github (add ssh keys)
-  - firefox
-    - change Downloads to scratch
-    - set default browser
-  - gmail
-  - amazon
-  - spotify
-  - zotero
-    - see setup below
-  - discord
-  - slack
-    - change Downloads to scratch
-  - steam
-    - Steam -> Settings -> Steam Play -> Enable Steam Play for all other titles (checkbox)
+- Download void image: sha256sum.sig, sha256sum.txt and live version of void that matches operating system (base and non-musl) https://repo-default.voidlinux.org/live/current/
+- Prepare USB device: plug in USB, find sdX reference with `fdisk -l`, unmount with `umount /dev/sdX`, and write live image with `dd bs=4M if=/path/to/void-live-ARCH-DATE-VARIANT.iso of=/dev/sdX`
+- Boot into flash USB: reboot, F12, select boot from USB (might need to reflash USB using software like ventoy or mkusb if this isn’t working), select RAM option, then set the following:
+    - root password
+    - user username, password
+    - boot loader —> hard drive
+    - partitions (if you need to)
+    - filesystems
+        - 1: vfat: `/boot/efi` (~512Mb) !!Must be VFAT and first partition!!
+        - 2: swap (~RAM)
+        - 3: ext4: `/` (~100Gb)
+        - 4: ext4: `/home` (~200Gb)
+        - 5: xfs: `/data` !!Don’t create new filesystem unless first time!!
+- Network: If not connected to a hard line, try either using installer wizard (select `wpa`) or run `./wifi.sh '<SSID>' '<PW>'` from root terminal. You need this for `bxps` package manager to work for setup and config scripts
+- Install python3 and git: `sudo xbps-install -Sy python3 git`
+- Copy `conf` repo and theme images into `/data` , either from mounted USB or GitHub `/data && git clone https://github.com/danjenson/conf.git` (may no longer be possible with GitHub’s new PAT authentication scheme).
+- Create symbolic link with home directory: `ln -s /data/conf/ ~`
+- Run setup script: `./setup.py <base,ghost,m2> --username <username> --hostname <hostname> --timezone <country/city>` !!Don’t run with `sudo`, best to just input password periodically so user has read and write permissions for any created files!!
+- Reboot, login to user, set theme (`set theme <light/dark> —img /path/to/img`) and start xorg display server (`startx`, alias `x` should also work)
+- Troubleshooting:
+    - WIFI network:  ping [Google.com](http://Google.com) or 8.8.8.8 as a test, if not working, try the following:
+        - network manager: if correctly setup, you just need to establish a connection from the terminal using `nmtui` and follow the prompts (recommended)
+        - wpa supplicant: follow the instructions in the link below
+            
+            https://www.reddit.com/r/voidlinux/comments/hjcyun/very_simple_guide_on_how_to_using_wpa_supplicant/?utm_source=share&utm_medium=ios_app&utm_name=iossmf
+            
+    - Intel firmware error on boot: solve by running `xbps-install sof-firmware` and `xbps-install sof-tools`
+    - Keyboard collisions: copy `/usr/lib/udev/hwdb.d/60-keyboard.hwdb` to `/etc/udev/hwdb.d/` and then commented out all the lines that contained the word 'zoom' under the lenovo and ibm sections then i ran `udevadm hwdb --update && udevadm control --reload-rules && udevadm trigger`
+    - Shell for root vs users: check available shells using `cat /etc/shells` and modify using instructions from link https://www.tecmint.com/change-a-users-default-shell-in-linux/
+    - Rofi app launcher: may run into issues integrating with pywal theme. To handle, look into `~/.config/rofi/config.rasi` and replace `@theme "rofi.rasi"` with `@import "/home/jelc/.config/wal/rofi.rasi"`
+    - Pywalfox: there are a number of pip installed packages that may not work if `/home/jelc/.local/bin/` is not added to path.
+    
 
-# Configuration
+**Updating PATH for Linux**: check what is already included with `echo $env.PATH`, then add the following to `~/.bashrc` to update path to include `/home/jelc/.local/bin/` (as an example). If you use shells other than bash, you may need to do something equivalent in `~/.profile` instead.
 
-## Zotero
-- install with `setup.py`
-- Firefox -> Extensions -> Zotero Connector -> ... -> Preferences -> Advanced -> Config Editor -> firstSaveToServer -> false
-- Download [zotfile](https://www.zotfile.com)
-- Edit -> Preferences -> Sync
-  - Sync attachment files in My Library using Zotero (uncheck)
-- Tools -> Add-ons
-  - Gear -> Install Add-on from file...
-- Tools -> Zotfile Preferences
-  - General Settings
-    - Source folder for Attaching New Files
-      - `/home/danj/Zotero/storage`
-    - Location of files
-      - `/home/danj/pdfs/papers`
-  - Renaming Rules
-    - Format for all Item types Except Patents:
-      - `{%t} {- %a} {(%y)}`
-    - Delimiter between multiple authors: `, ` (with space)
-- To fix name: right click -> manage attachments -> Rename and Move
-
-## NVIDIA
-
-- Use [official docs](https://us.download.nvidia.com/XFree86/Linux-x86_64/515.57/README/index.html), the arch linux docs are out of date
-- If you're getting (key) stuttering:
-  - try updating xconf with `sudo nvidia-xconfig`
-  - try running `__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia picom`
-- Boot problems:
-  - if you are only every running nvidia, you might just use `nvidia-xconfig` to create an xorg conf
-  - can also add `nomodeset rd.driver.blacklist=nouveau` to `/etc/default/grub` on the `GRUB_CMDLINE_LINUX_DEFAULT` line, then run `sudo update-grub`
-
-## Remote Server
-
-- path: `export PATH=~/.local/bin:~/.cargo/bin:~/.pyenv/bin:$PATH`
-- install:
-  - copy binaries to `~/.local/bin`:
-    - [tmux](https://github.com/tmux/tmux/releases/download/3.3a/tmux-3.3a.tar.gz)
-      - `tar xvzf *.tar.gz && cd tmux-*`
-      - `./configure --prefix=/home/<USER>/.local/`
-      - `make && make install`
-    - [git](https://github.com/git/git/tags)
-      - `tar xvzf *.tar.gz && cd git-*`
-      - `make configure && ./configure --prefix=/home/<USER>/.local/ [--with-curl=/home/<USER>/.local/]`
-      - `make && make install`
-    - [curl](https://github.com/curl/curl/releases)[OPTIONAL]: if libcurl not
-      found by git, i.e. `git remote-https` won't work; afterwords re-run git configure/make/install
-      with `--with-curl=...` flag
-      - `tar xvzf *.tar.gz && cd curl-*`
-      - `./configure --prefix=/home/<USER>/.local/ --with-openssl`
-      - `make && make install`
-    - [git lfs](https://git-lfs.github.com/)
-      - download and link `git-lfs-*/git-lfs` to `~/.local/bin`
-    - [node](https://nodejs.org/en/download/)
-      - can install binary and then link `../bin` to `~/.local/bin`
-    - [nvim](https://github.com/neovim/neovim/wiki/Installing-Neovim#install-from-download)
-  - alacritty terminfo: ` curl -sSL https://raw.githubusercontent.com/alacritty/alacritty/master/extra/alacritty.info | tic -x -`
-  - rust: `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
-    - `cargo install nu --features=extra`
-  - pyenv: `curl https://pyenv.run | bash`
-    - `pyenv install 3.9.9`
-    - `pyenv global 3.9.9`
-- dots:
-  - `ln -sf ~/conf/dots/.git* ~/`
-  - `ln -s ~/conf/dots/config/nushell ~/.config/nushell`
-  - `~/conf/setup.py nvim`
-  - `ln -s ~/conf/dots/.tmux.conf ~/`
-  - `mkdir -p ~/.ipython/profile_default && ln -sf ~/conf/dots/.ipython/* ~/.ipython/profile_default/ && pip install -r ~/conf/dots/.ipython/requirements.txt`
-- Incorrect colors? comment out `true-color` block in `~/.config/helix/config.toml`
-
-## Printing
-
-- install `cups`, `cups-filters`, `avahi`, and `nss-mdns`
-- add user to printer admin group: `sudo usermod -a -G lpadmin danj`
-- enable cupsd and avahi-daemon: `sudo ln -s /etc/sv/{cupsd,avahi-daemon} /var/service/`
-- navigate to [cups](http://localhost:631/admin) in the browser:
-  - add printer, use driverless IPP Everywhere Canon Driver
-  - make it the default printer in Printers -> `<printer name>` -> `Set as Server Default` (right drop-down)
-- when logging in to the printer proper, the username is ADMIN and the password is the serial number (Canon Pixma iP110)
-
-## Monitors
-
-To set up a new monitor:
-
-- `arandr` and save screen layout to `~/.config/bspwm/<hostname>/<x11_config_name>.sh`
-- add appropriate `bspc config -d 1 2 ...` commands to assign workspaces to monitors
-- [PRIME](https://wiki.archlinux.org/title/PRIME#PRIME_render_offload)
-  - currently this does very little because several applications are always
-    running on the GPU
-
-## Trackpad
-
-- [wiki](https://wiki.archlinux.org/title/Touchpad_Synaptics)
-- [options](https://man.archlinux.org/man/synaptics.4)
-
-## Snippets
-
-- add to `~/.config/snippets`
-  - [package.json format](https://github.com/rafamadriz/friendly-snippets/blob/main/package.json)
-  - [snippet format](https://code.visualstudio.com/docs/editor/userdefinedsnippets)
-
-## Anki
-
-- [wiki](https://github.com/lervag/apy/wiki/Vim) on using apy/anki
-- currently not working since version stuck at 2.15 see this [issue](https://github.com/void-linux/void-packages/pull/35238)
-
-## Python
-
-- to install a different version of python: `pyenv install 3.9.9`
-- rehash shims: `pyenv rehash`
-- to use a different version for a project, run `pyenv local 3.9.9` to set the project version; all commands in this directory will use that version, i.e. `pip install -r requirements.txt`
-- to setup pyright, in project root, create a file `pyrightconfig.json` with
-  the contents: `{"venvPath": "/home/<user>/.pyenv/versions/", "venv": "<name>"}`; the name could be a python version, i.e. 3.9.9, or a virtualenv
-
-#### Virtualenvs
-
-- `pyenv virtualenv <version> <name>`
-- in project root:
-  - set project to use env: `pyenv local <name>`
-  - `vim pyrightconfig.json`: `{"venvPath": "/home/<user>/.pyenv/versions/", "venv": "<name>"}`
-- to remove: `rm -rf ~/.pyenv/versions/<name>`
-
-## rclone - Google Drive
-
-- `ln -s ~/.keys/rclone ~/.config/rclone` if it exists, otherwise:
-  - create a config with `rclone config`
-  - check for auth in google drive or create a [google client ID](https://rclone.org/drive/#making-your-own-client-id)
-  - example: `rclone sync /data gdrive:data --interactive --progress --log-file=/tmp/data-rclone-gdrive.log`
-
-## Microphone
-
-- TODO: switch to pipewire
-- use `pavucontrol` to set this
-- heaphones with mics:
-  - `pavucontrol`
-  - Configuration
-  - Change device to 'Handsfree Head Unit (HFP)' using the mSBC protocol (if
-    supported -- higher quality than CVSD)
-
-## VPN
-
-- setup: `nm-connection-editor`
-- connect: `nmcli --ask con up <name>`
-- disconnect: `nmcli con down <name>`
-
-## Remote Desktop
-
-- [get an rdp file](https://cluster-checkout.stanford.edu/)
-- run `remmina`
-- click the triple bars in upper right
-- import `*.rdp` file
-- right click entry, click edit
-  - add login user/password
-  - change screenshots directory
-  - change shared directory
-
-## Forward Stanford Email
-
-- Forward your @stanford emails to your @gmail via
-  https://accounts.stanford.edu/ -> "Manage" -> "Email" -> "Forward email"
-- In Gmail, add another email address to "Send mail as" in Gmail under
-  "Settings" -> "Accounts and Import" -> in the "Send mail as" section -> "Add
-  another email address" and use the "Outgoing server settings" listed under
-  IMAP [here](https://uit.stanford.edu/service/office365/configure/generic)
-
-## Latex
-
-- `sudo tlmgr install <package>` or `tex install` with custom nu func
-- if you get `Input Pygments...` errors, add `\usepackage[outputdir=build]{minted}`
-
-## Samba server
-
-- Install `samba`
-- `sudo smbpasswd -a danj`
-- `sudo smbpasswd -e danj`
-- edit `/etc/samba/smb.conf`, adding something like the following
-- enable service `ln -s /etc/sv/smbd /var/service`
-
-```
-[lectures]
-   comment = Dan's Lectures
-   path = /data/lectures
-   valid users = danj
-   public = yes
-   writable = no
-   read only = yes
-   printable = no
-   create mask = 0765
+```bash
+# Add directories to path
+pathadd() {
+    if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+        PATH="${PATH:+"$PATH:"}$1"
+    fi
+}
+pathadd "/home/jelc/.local/bin/"
 ```
 
-- You can also change `workgroup = MOTOKO-WORKGROUP`
-- To connec:
-  - Nvidia Shield:
-    - Settings -> Device Preferences -> Storage
-    - Mount network storage -> `\\<ip_address>\lectures`
-    - The domain will be `MOTOKO-WORKGROUP`
-    - The username and password will be as you set up above
-    - Install VLC for android and allow access to media
+**Graphical user interface**: you can think of it as xorg conf as controlling the "hardware" side and bspwm window manager configs as managing how you want the bspwm desktops mapped to the monitors available
 
-## Screensaver
+- xorg: display server (hardware controller, )
+- bspwm: window manager (`~/.config/bspwm`)
+- rofi: application launcher for Xorg display servers (`~/.config/rofi`)
+- gtk: GIMP Toolkit, complete set of UI elements (e.g. theme, toolbar) (`~/.config/gtk-3.0`)
+- eww: fancy toolbar widgets built on top of GTK, written in rust (`~/.config/eww`)
+- sxhkd: desktop key bindings (`~/.config/sxhkd`)
+- ranger: vim-inspired file manager, launch from terminal (`/.config/ranger`)
+- alacritty: lightweight terminal emulator, written in rust
+- nushell: shell written in rust, allows for table operations (`~/.config/nushell`)
+- wal: generates color scheme from image (`~/.config/wal`)
+- dunst: push notifications (`~/.config/dunst`)
 
-- `xscreensaver`
-- good ones:
-  - Coral
-  - Cubic Grid
-  - Dymaxion Map
-  - Film Leader
-  - Flurry
-  - GL Matrix
-  - Gravity Well
-  - Intermonetary
-  - Lament
-  - Lockward
-  - Loop
-  - Maze 3D
-  - Meta Balls
-  - Mobius Gears
-  - Nerve Rot
-  - Pac-Man
-  - Phosphor
-  - Pipes
-  - Polytopes
-  - Pong
-  - Providence
-  - Pyro
-  - Rocks
-  - Rorschach
-  - Rubik
-  - Scooter
-  - Sonar
-  - Splodesic
-  - Squiral
-  - Stairs
-  - Star Wars
-  - Starfish
-  - Stoner View
-  - Strange
-  - Surfaces
-  - Top Block
-  - Unknown Pleasures
-  - Vermiculate
-  - Vigilance
-  - Whirlwind Warp
-  - Wormhole
-  - XAnalogTV
-  - XMatrix
+**Mounting media**: usb 
+
+- Find sdX reference with `fdisk -l`
+- Mount with ‘sudo mount /dev/sdX /media/usb’. Note, might first need to mkdir. Can now access data from device at /media/usb like any other filesystem.
+- Unmount with ‘umount /dev/sdX’ and remove device from machine.
+
+**Establishing services**: e.g. dhcpcd, wpa supplcant, dbus, network manager, etc
+
+- Services available (installed) found here: `/etc/sv`
+- Services enabled (running) here: `/var/service` this is done by symbolic link (using `sudo ln -s /etc/sv/<service> /var/service`)
+    - enable/disable: `sudo sv up/down <service>`
+    - remove: `sudo rm /var/service/<service>`
+    
+
+**Text Editor**: Want to take notes and write code using Helix + language plugins (marksman, texlab, clangd) 
+
+- Language Server: provides programming language specific features like code completion, syntax highlighting, markings for warnings and errors, and refactoring routines
+- Language Server Protocol (LSP):  open source JSON-RPC-based protocol that coordinates between code editors (or IDEs) and language servers. Allows programming language support to be distributed independently of editor or IDE
+- Editor Plugins: individual editors need to provide integration support (plugins) to enable different language servers to function properly via LSP
+
+**Virtual Environments**: Conda vs PyEnv … packaging vs system bloat
+
+- xxx
+
+**Package Management**: Besides defaults and gui interfaces, the primary difference between Linux OS distributions is stability, currency and dependency resolution package managers
+
+https://en.wikipedia.org/wiki/List_of_software_package_management_systems
+
+- MacOS (homebrew, 2009): popular in the Ruby on Rails community.
+- Void Linux (xbps + runit, 2008): X Binary Package System
+- Fedora (RPM / DNF, Flatpak, OSTree): Continuation of the Red Hat Linux Project
+- Debian (apt / dpkg, 1994): Debian Package (low level) and Advanced Package Tool (high-level) are both used for Debian and its derivatives Ubuntu, Linux Mint, etc.
+- Arch Linux (pacman + systemd, 2002): bleeding edge of linux with rolling release model
+
+**Data storage**: Create a `/data` disk partition to ensure separation with operating system and allow for distribution changes without loss of important data
+
+- What to store? Config data files … language servers? compilers? packages? not sure …
+- What not to store? Data used for modeling or projects should really be in `/home/<usr>/projects` directory for active use and cold storage duplicated on google drive and external hard drive.
