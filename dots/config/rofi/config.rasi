@@ -8,4 +8,4 @@ configuration {
   kb-ellipsize: "apostrophe";
 }
 
-@theme "rofi.rasi"
+@import "/home/jelc/.cache/wal/rofi.rasi"
