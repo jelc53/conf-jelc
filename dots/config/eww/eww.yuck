@@ -120,7 +120,7 @@
     :class "bar group controls"
     (battery)
     (audio)
-    ; (brightness)
+    ;(brightness)
     (network)
     (metrics)))
 

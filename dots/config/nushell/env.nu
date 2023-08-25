@@ -35,6 +35,7 @@ load-env {
     "~/.cargo/bin",
     "~/.cabal/bin",
     "~/.elan/bin",
+    "~/.nvm/versions/node/v18.17.1/bin",
     "~/.local/share/gem/ruby/3.1.0/bin",
     "/opt/homebrew/bin",	
     "/usr/lib/ruby/gems/3.1.0/bin",

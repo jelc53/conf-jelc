@@ -1,6 +1,6 @@
 !! use xev to find keycodes and names
 !!
-!! Caps Lock -> Control
+Caps Lock -> Control
 clear lock
 clear control
 keycode 66 = Control_L
