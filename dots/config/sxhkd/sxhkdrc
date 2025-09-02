@@ -45,8 +45,8 @@ ctrl + shift + s
   flameshot gui
 
 # private browser
-ctrl + shift + p
-  firefox -private-window
+# ctrl + shift + p
+#   firefox -private-window
 
 # search google
 ctrl + g

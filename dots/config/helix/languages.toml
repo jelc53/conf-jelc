@@ -11,17 +11,7 @@
 
 [[language]]
 name = "rust"
-auto-format = false
-
-[[language]]
-name = "python"
-# auto-format = true
-# pyright doesn't work as well as pylsp (2023-03-23)
-roots = ["pyproject.toml", "setup.py", "Poetry.lock"]
-language-server = { command = "pyright-langserver", args = ["--stdio"] }
-formatter = { command = "sh" , args = ["-c", "black --quiet - | isort -"] }
-text-width = 79
-config = {}
+formatter = { command = "rustfmt", args = ["+nightly"] }
 
 [[language]]
 name = "markdown"
@@ -32,15 +22,18 @@ name = "html"
 auto-format = true
 
 [[language]]
-name = "typescript"
+name = "python"
+language-servers = ["pylsp"]
+roots = [".git"]
+#workspace-lsp-roots = ["src/updater"]
 auto-format = true
-# pass format options according to https://github.com/typescript-language-server/typescript-language-server#workspacedidchangeconfiguration omitting the "[language].format." prefix.
-config = { format = { "semicolons" = "insert", "insertSpaceBeforeFunctionParenthesis" = true } }
 
-[[language]]
-name = "json"
-config = { "provideFormatter" = true }
-
-[[language]]
-name = "lean"
-config = { input.eagerReplacementEnabled = true }
+[language-server.pylsp.config.pylsp.plugins]
+flake8 = {enabled = true, ignore = ["E501"]}
+autopep8 = {enabled = false}
+mccabe = {enabled = false}
+pycodestyle = {enabled = false}
+pyflakes = {enabled = false}
+pylint = {enabled = false}
+yapf = {enabled = false}
+ruff = { enabled = false}

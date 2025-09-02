@@ -1154,6 +1154,17 @@ def "dk once" [
   distro: string # name of distro, i.e. ubuntu, alpine, bash, etc
 ] { docker run -it --rm $distro }
 
+# yazi file explorer
+def-env y [...args] {
+	let tmp = (mktemp -t "yazi-cwd.XXXXXX")
+	yazi ...$args --cwd-file $tmp
+	let cwd = (open $tmp)
+	if $cwd != "" and $cwd != $env.PWD {
+		cd $cwd
+	}
+	rm -fp $tmp
+}
+
 # ALIASES 
 alias farm = ssh farm
 alias R = radian
