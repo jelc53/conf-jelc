@@ -1007,11 +1007,8 @@ def logout [] { bspc quit }
 def bt [] {
   [
     ["name", "device", "address"];
-    ["BTunes M50X/5", "at", "00:18:91:8C:77:21"]
-    ["Powerbeats Pro", "beats", "88:B9:45:06:28:03"]
-    ["JBL Flip 5", "flip", "B8:F6:53:A0:DF:2C"]
-    ["Echo Dot", "echodot", "48:B4:23:72:C7:65"]
-    ["Xbox Controller", "xbox", "A8:8C:3E:3E:E2:B0"]
+    ["UE Boom", "ueboom", "10:94:97:07:8E:3B"]
+    ["Airpods 3", "airpods", "EC:2C:73:51:25:00"]
   ]
 }
 
@@ -1037,7 +1034,7 @@ def "bt pair" [
 
 # bluetooth connect
 def "bt connect" [
-  --device (-d): string  # at (audio-technica), beats, flip
+  --device (-d): string  # airpods, ueboom
 ] {
   let address = (bt | where device == $device | get address)
   bluetoothctl power on
@@ -1046,7 +1043,7 @@ def "bt connect" [
 
 # bluetooth disconnect
 def "bt disconnect" [
-  --device (-d): string  # at (audio-technica), beats, flip
+  --device (-d): string  # airpods, ueboom
 ] {
   let address = (bt | where device == $device | get address)
   bluetoothctl disconnect $address
@@ -1189,16 +1186,10 @@ alias g = gdrive
 alias gx = gdrive scratch
 alias lofi = yt "https://youtu.be/5qap5aO4i9A"
 alias nofi = yt stop
-alias at = bt connect -d at
-alias atd = bt disconnect -d at
-alias beats = bt connect -d beats
-alias beatsd = bt disconnect -d beats
-alias xbox = bt connect -d xbox
-alias xboxd = bt disconnect -d xbox
-alias flip = bt connect -d flip
-alias flipd = bt disconnect -d flip
-alias echodot = bt connect -d echodot
-alias echodotd = bt disconnect -d echodot
+alias ueboom = bt connect -d ueboom
+alias ueboomd = bt disconnect -d ueboom
+alias airpods = bt connect -d airpods
+alias airpodsd = bt disconnect -d airpods
 alias cfgh = cfg hx
 alias cfgb = cfg bspwm
 alias cfge = cfg eww
